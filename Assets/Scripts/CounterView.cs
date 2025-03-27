@@ -1,15 +1,27 @@
 using UnityEngine;
 using TMPro;
 
-[RequireComponent(typeof(Counter))]
 public class CounterView : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _counterText;
-
-    private Counter _counter;
+    [SerializeField] private Counter _counter;
     
     private void Awake()
     {
+        if (_counter == null)
+        {
+            Debug.LogError("CounterView: Counter не назначен!");
+            enabled = false;
+            
+            return;
+        }
+
+        if (_counterText == null)
+        {
+            Debug.LogError("CounterView: TextMeshProUGUI не назначен!");
+            enabled = false;
+        }
+            
         _counter = GetComponent<Counter>();
     }
 
@@ -25,7 +37,6 @@ public class CounterView : MonoBehaviour
 
     private void OnCounterValueChanged(int value)
     {
-        if (_counterText)
-            _counterText.text = value.ToString();
+        _counterText.text = value.ToString();
     }
 }
